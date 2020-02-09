@@ -1,26 +1,60 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './bootstrap.min.css';
+import Faker from 'faker'
+import Persons from './component/Persons'
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      person: []
+    }
+    for (var i = 1; i < 30; i++) {
+      let obj = {
+        name: Faker.internet.userName(),
+        roll: i,
+        id: i
+      }
+      this.state.person.push(obj)
+      // }
+    }
+  }
 
-function App() {
+  del = (id) => {
+    let nee = this.state.person.filter(data => data.id !== id)
+    this.setState({
+      person: nee
+    })
+  }
+  
+  edit = (name,id)=>{
+    let newww = this.state.person.map((data)=>{
+      if(id == data.id){
+        return{
+          ...data,
+          name
+        }
+      }
+      return data
+    })
+    this.setState({
+      person: newww
+    })
+  }
+  
+render() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Persons edit ={this.edit} del={this.del} person={this.state.person} />
     </div>
-  );
+  )
 }
+}
+export default App
 
-export default App;
+
+
+
+
+
+
